@@ -62,18 +62,11 @@ app.get("/download", async (req, res) => {
     });
   }
 
-  try {
-    res.header("Content-Disposition", `attachment; filename=${name}`);
-    ytdl(url, {
-      format: "mp4",
-      quality: "highest",
-    }).pipe(res);
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Lỗi từ server!",
-    });
-  }
+  res.header("Content-Disposition", `attachment; filename=${name}`);
+  ytdl(url, {
+    format: "mp4",
+    quality: "highest",
+  }).pipe(res);
 });
 
 const PORT = 5000;
