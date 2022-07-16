@@ -76,7 +76,7 @@ app.get("/download", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
 app.listen(PORT, () => {
   console.log("Server is running!");
