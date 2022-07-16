@@ -4,6 +4,8 @@ import { getVideoInfo } from "../api";
 import SkeletonVideoCard from "./SkeletonVideoCard";
 import VideoCard from "./VideoCard";
 import { BsGithub } from "react-icons/bs";
+import { GiClick } from "react-icons/gi";
+import HowToUse from "./HowToUse";
 
 const ResultVideo = () => {
   const [data, setData] = useState({});
@@ -53,8 +55,15 @@ const ResultVideo = () => {
       {data?.video && <VideoCard video={data?.video} />}
 
       <div className="lg:mx-40 mt-10 border p-4">
+        <p className="text-center text-lg flex items-center justify-center cursor-pointer">
+          <GiClick className="w-8 h-8 mr-2 text-blue-600" />
+          <span>Download videos with just 1 click</span>
+        </p>
+      </div>
+
+      <div className="lg:mx-40 mt-4 border p-4">
         <a
-          href="#"
+          href="https://github.com/an678-mhg/VideoDownload"
           className="text-center text-lg flex items-center justify-center cursor-pointer"
           target="_blank"
           rel="noreferrer"
@@ -63,6 +72,8 @@ const ResultVideo = () => {
           <span className="text-blue-500">Refer to the project on github</span>
         </a>
       </div>
+
+      <HowToUse />
     </form>
   );
 };

@@ -61,3 +61,11 @@ body {
 .line-clamp-2 {
   -webkit-line-clamp: 2;
 }
+
+.menu .child {
+  display: none;
+}
+
+.menu:hover .child {
+  display: block;
+}
