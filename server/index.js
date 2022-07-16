@@ -42,7 +42,7 @@ app.get("/info", async (req, res) => {
   }
 });
 
-app.get("/download", async (req, res) => {
+app.get("/download", (req, res) => {
   const url = req.query.url;
   const name = `${Math.random()}.mp4`;
 
@@ -65,7 +65,6 @@ app.get("/download", async (req, res) => {
   res.header("Content-Disposition", `attachment; filename=${name}`);
   ytdl(url, {
     format: "mp4",
-    quality: "highest",
   }).pipe(res);
 });
 
