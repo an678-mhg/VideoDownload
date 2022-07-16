@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "https://video-download-8bo4ynxkb-an678-mhg.vercel.app";
+const baseUrl = "https://video-download-flax.vercel.app";
 
 const client = axios.create({
   baseURL: baseUrl,
