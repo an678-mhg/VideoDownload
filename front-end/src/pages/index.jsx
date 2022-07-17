@@ -1,10 +1,15 @@
-import Header from "./components/Header";
+import Header from "../components/Header";
 import { BsYoutube } from "react-icons/bs";
-import ResultVideo from "./components/ResultVideo";
+import ResultVideo from "../components/ResultVideo";
+import Head from "next/head";
 
-function App() {
+export default function Home() {
   return (
     <div>
+      <Head>
+        <title>Youtube Video And Audio Downloader</title>
+      </Head>
+
       <Header />
 
       <div className="py-10 container">
@@ -19,5 +24,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

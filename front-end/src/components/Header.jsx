@@ -15,7 +15,7 @@ const Header = () => {
             <FcContacts className="w-6 h-6 mr-1" />
             <span>Contact</span>
 
-            <div className="absolute top-[30px] bg-white shadow-md px-4 rounded-md child">
+            <div className="absolute top-[30px] bg-[#2c3e50] shadow-md px-4 rounded-md child right-0 ">
               <a
                 target="_blank"
                 rel="noreferrer"
@@ -38,7 +38,7 @@ const Header = () => {
                 target="_blank"
                 rel="noreferrer"
                 href="https://www.youtube.com/channel/UCJeY2ZgtRzY3NSiLZYu9ddg"
-                className="flex items-center border-b p-2"
+                className="flex items-center p-2"
               >
                 <AiOutlineYoutube className="w-6 h-6 text-red-600 mr-2" />
                 <span className="">Youtube</span>

@@ -1,11 +1,29 @@
 const express = require("express");
 const ytdl = require("ytdl-core");
 const cors = require("cors");
+const axios = require("axios");
+require("dotenv").config();
 
 const app = express();
+
+// JSON
 app.use(express.json());
+
+// Cors
 app.use(cors());
-app.get("/info", async (req, res) => {
+
+const getMp3File = async (videoId) => {
+  const res = await axios.get(`${process.env.API_URL_MP3}?id=${videoId}`, {
+    headers: {
+      "X-RapidAPI-Key": process.env.API_KEY,
+      "X-RapidAPI-Host": process.env.API_HOST,
+    },
+  });
+
+  return res.data;
+};
+
+app.get("/download", async (req, res) => {
   const url = req.query.url;
 
   if (!url) {
@@ -24,15 +42,25 @@ app.get("/info", async (req, res) => {
   }
 
   try {
-    const info = await ytdl.getInfo(url);
+    const videoId = ytdl.getURLVideoID(url);
+    const data = await Promise.all([ytdl.getInfo(url), getMp3File(videoId)]);
+
     res.status(200).json({
       success: true,
+      formats: data[0].formats
+        .filter((item) => item.hasVideo && item.hasAudio)
+        .map((item) => ({
+          url: item.url,
+          qualityLabel: item.qualityLabel,
+          container: item.container,
+        })),
       video: {
-        title: info?.videoDetails?.title,
-        lengthSeconds: info?.videoDetails?.lengthSeconds,
-        thumbnails: info?.videoDetails?.thumbnails,
+        title: data[0]?.videoDetails?.title,
+        lengthSeconds: data[0]?.videoDetails?.lengthSeconds,
+        thumbnails: data[0]?.videoDetails?.thumbnails,
         url: url,
       },
+      mp3: data[1]?.link,
     });
   } catch (error) {
     res.status(500).json({
@@ -40,32 +68,6 @@ app.get("/info", async (req, res) => {
       message: "Lỗi từ server!",
     });
   }
-});
-
-app.get("/download", (req, res) => {
-  const url = req.query.url;
-  const name = `${Math.random()}.mp4`;
-
-  if (!url) {
-    return res.status(400).json({
-      success: false,
-      message: "Thiếu url đường dẫn video!",
-    });
-  }
-
-  const checkUrl = ytdl.validateURL(url);
-
-  if (!checkUrl) {
-    return res.status(404).json({
-      success: false,
-      message: "Id video sai hoặc đường dẫn sai định dạng!",
-    });
-  }
-
-  res.header("Content-Disposition", `attachment; filename=${name}`);
-  ytdl(url, {
-    format: "mp4",
-  }).pipe(res);
 });
 
 const PORT = 5000;

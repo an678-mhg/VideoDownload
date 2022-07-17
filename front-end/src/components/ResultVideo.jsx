@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { getVideoInfo } from "../api";
-import SkeletonVideoCard from "./SkeletonVideoCard";
-import VideoCard from "./VideoCard";
+import { getVideoInfo } from "../services/api";
+import SkeletonVideoCard from "../components/SkeletonVideoCard";
+import VideoCard from "../components/VideoCard";
 import { BsGithub } from "react-icons/bs";
 import { GiClick } from "react-icons/gi";
-import HowToUse from "./HowToUse";
+import HowToUse from "../components/HowToUse";
+import Selected from "./Selected";
+import ButtonMp3 from "./ButtonMp3";
+import { toast } from "react-toastify";
 
 const ResultVideo = () => {
   const [data, setData] = useState({});
@@ -19,10 +21,6 @@ const ResultVideo = () => {
       return;
     }
 
-    if (!text.startsWith("https://") || text.indexOf("youtube") === -1) {
-      return toast.error("Sai định dạng đường dẫn!");
-    }
-
     setData({});
     setLoading(true);
     try {
@@ -31,21 +29,21 @@ const ResultVideo = () => {
       setLoading(false);
     } catch (error) {
       console.log(error);
+      toast.error("Wrong video link or id!");
       setLoading(false);
-      toast.error(error.response.data.message);
     }
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)} className="mt-20">
+    <form onSubmit={(e) => handleSubmit(e)} className="mt-10">
       <div className="w-full flex items-center lg:px-40 mx-auto">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="px-3 py-2 flex-1 outline-none border-[5px] border-blue-500"
+          className="px-3 py-2 flex-1 outline-none border-[5px] border-blue-500 bg-[#242526]"
           placeholder="Pass your video link here..."
         />
-        <button className="px-4 rounded-sm h-[50px] flex items-center justify-center ml-2 bg-blue-500 text-white font-semibold cursor-pointer">
+        <button className="px-4 h-[50px] flex items-center justify-center ml-2 bg-blue-500 text-white font-semibold cursor-pointer">
           Search
         </button>
       </div>
@@ -54,14 +52,18 @@ const ResultVideo = () => {
 
       {data?.video && <VideoCard video={data?.video} />}
 
-      <div className="lg:mx-40 mt-10 border p-4">
+      {data?.formats && <Selected data={data?.formats} />}
+
+      {data?.mp3 && <ButtonMp3 link={data?.mp3} />}
+
+      <div className="lg:mx-40 mt-4 bg-[#242526] p-4">
         <p className="text-center text-lg flex items-center justify-center cursor-pointer">
           <GiClick className="w-8 h-8 mr-2 text-blue-600" />
           <span>Download videos with just 1 click</span>
         </p>
       </div>
 
-      <div className="lg:mx-40 mt-4 border p-4">
+      <div className="lg:mx-40 mt-4 p-4 bg-[#242526]">
         <a
           href="https://github.com/an678-mhg/VideoDownload"
           className="text-center text-lg flex items-center justify-center cursor-pointer"
