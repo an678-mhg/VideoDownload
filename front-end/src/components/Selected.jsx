@@ -19,7 +19,7 @@ const Selected = ({ data }) => {
         className="flex-1"
       >
         {data?.map((item) => (
-          <option value={item.url}>
+          <option key={item.url} value={item.url}>
             <div>
               <span> {item.container.toUpperCase()}</span>
               <span className="ml-2"> {item.qualityLabel}</span>
