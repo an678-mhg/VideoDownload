@@ -2,7 +2,7 @@ import React from "react";
 
 const ButtonMp3 = ({ link }) => {
   return (
-    <div className="flex mt-4 md:px-40">
+    <div className="flex mt-4 lg:px-40">
       <a
         target="_blank"
         rel="noreferrer"

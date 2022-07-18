@@ -36,14 +36,14 @@ const ResultVideo = () => {
 
   return (
     <form onSubmit={(e) => handleSubmit(e)} className="mt-10">
-      <div className="w-full flex items-center lg:px-40 mx-auto">
+      <div className="w-full flex lg:px-40 mx-auto">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="px-3 py-2 flex-1 outline-none border-[5px] border-blue-500 bg-[#242526]"
+          className="px-3 py-2 flex-1 outline-none bg-[#242526]"
           placeholder="Pass your video link here..."
         />
-        <button className="px-4 h-[50px] flex items-center justify-center ml-2 bg-blue-500 text-white font-semibold cursor-pointer">
+        <button className="px-3 py-2 flex items-center justify-center ml-1 bg-blue-500 text-white font-semibold cursor-pointer">
           Search
         </button>
       </div>
@@ -57,22 +57,29 @@ const ResultVideo = () => {
       {data?.mp3 && <ButtonMp3 link={data?.mp3} />}
 
       <div className="lg:mx-40 mt-4 bg-[#242526] p-4">
-        <p className="text-center text-lg flex items-center justify-center cursor-pointer">
-          <GiClick className="w-8 h-8 mr-2 text-blue-600" />
-          <span>Download videos with just 1 click</span>
+        <p className="text-center text-lg flex items-center cursor-pointer">
+          <GiClick className="w-8 h-8 mr-4 text-blue-600" />
+          <span className="md:text-lg text-sm">
+            Download videos with just 1 click
+          </span>
         </p>
       </div>
 
       <div className="lg:mx-40 mt-4 p-4 bg-[#242526]">
-        <a
-          href="https://github.com/an678-mhg/VideoDownload"
-          className="text-center text-lg flex items-center justify-center cursor-pointer"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <BsGithub className="w-8 h-8 mr-2" />
-          <span className="text-blue-500">Refer to the project on github</span>
-        </a>
+        <div className="text-center text-lg flex items-center">
+          <BsGithub className="w-8 h-8 mr-4" />
+          <span className="md:text-lg text-sm">
+            Refer to the project on{" "}
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://github.com/an678-mhg/VideoDownload"
+              className="text-blue-500 underline"
+            >
+              Github
+            </a>
+          </span>
+        </div>
       </div>
 
       <HowToUse />

@@ -4,7 +4,7 @@ const Selected = ({ data }) => {
   const [select, setSelect] = useState(data[0]?.url);
 
   return (
-    <div className="select md:mx-40 mt-4 flex">
+    <div className="select lg:mx-40 mt-4 flex">
       <a
         target="_blank"
         rel="noreferrer"
