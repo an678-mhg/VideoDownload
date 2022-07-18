@@ -33,16 +33,23 @@ app.get("/download", async (req, res) => {
     });
   }
 
-  const checkUrl = ytdl.validateURL(url);
-  if (!checkUrl) {
-    return res.status(404).json({
+  const videoId = ytdl.getURLVideoID(url);
+
+  if (!videoId) {
+    return res.status(500).json({
       success: false,
-      message: "Id video sai hoặc đường dẫn sai định dạng!",
+      message: "Id video hoặc đường dẫn lỗi!",
+    });
+  }
+
+  if (!ytdl.validateID(videoId)) {
+    return res.status(500).json({
+      success: false,
+      message: "Id video hoặc đường dẫn lỗi!",
     });
   }
 
   try {
-    const videoId = ytdl.getURLVideoID(url);
     const data = await Promise.all([ytdl.getInfo(url), getMp3File(videoId)]);
 
     res.status(200).json({
