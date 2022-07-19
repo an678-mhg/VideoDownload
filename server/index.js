@@ -46,20 +46,19 @@ app.get("/download", async (req, res) => {
     .then((data) => {
       res.status(200).json({
         success: true,
-        data: data[0],
-        // formats: data[0]?.formats
-        //   .filter((item) => item?.hasVideo && item?.hasAudio)
-        //   .map((item) => ({
-        //     url: item?.url,
-        //     qualityLabel: item?.qualityLabel,
-        //     container: item?.container,
-        //   })),
-        // video: {
-        //   title: data[0]?.videoDetails?.title,
-        //   lengthSeconds: data[0]?.videoDetails?.lengthSeconds,
-        //   thumbnails: data[0]?.videoDetails?.thumbnails,
-        //   url: url,
-        // },
+        formats: data[0]?.formats
+          .filter((item) => item?.hasVideo && item?.hasAudio)
+          .map((item) => ({
+            url: item?.url,
+            qualityLabel: item?.qualityLabel,
+            container: item?.container,
+          })),
+        video: {
+          title: data[0]?.videoDetails?.title,
+          lengthSeconds: data[0]?.videoDetails?.lengthSeconds,
+          thumbnails: data[0]?.videoDetails?.thumbnails,
+          url: url,
+        },
         mp3: data[1]?.link,
       });
     })
