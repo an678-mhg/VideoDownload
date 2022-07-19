@@ -76,6 +76,7 @@ app.get("/download", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Lỗi từ server!",
+      error,
     });
   }
 });
