@@ -29,7 +29,7 @@ const ResultVideo = () => {
       setLoading(false);
     } catch (error) {
       console.log(error);
-      toast.error("Wrong video link or id!");
+      toast.error(error.response.data.message);
       setLoading(false);
     }
   };
