@@ -35,8 +35,6 @@ app.get("/download", async (req, res) => {
 
   const videoId = ytdl.getURLVideoID(url);
 
-  console.log(!videoId);
-
   if (!videoId) {
     return res.status(500).json({
       success: false,
@@ -52,7 +50,7 @@ app.get("/download", async (req, res) => {
   }
 
   try {
-    const data = await Promise.all([ytdl.getInfo(url), getMp3File(videoId)]);
+    const data = await Promise.all([ytdl.getInfo(url)]);
 
     res.status(200).json({
       success: true,
@@ -69,7 +67,7 @@ app.get("/download", async (req, res) => {
         thumbnails: data[0]?.videoDetails?.thumbnails,
         url: url,
       },
-      mp3: data[1]?.link,
+      // mp3: data[1]?.link,
     });
   } catch (error) {
     console.log(error);
