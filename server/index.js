@@ -29,38 +29,46 @@ app.get("/download", async (req, res) => {
   if (!url) {
     return res.status(400).json({
       success: false,
-      message: "Thiếu url đường dẫn video!",
+      message: "Missing parameter url!",
     });
   }
 
   if (!ytdl.validateURL(url)) {
     return res.status(500).json({
       success: false,
-      message: "Id video hoặc đường dẫn lỗi!",
+      message: "Id video or url wrong!",
     });
   }
 
   const videoId = ytdl.getURLVideoID(url);
 
-  const data = await Promise.all([ytdl.getInfo(url), getMp3File(videoId)]);
-
-  res.status(200).json({
-    success: true,
-    formats: data[0].formats
-      .filter((item) => item.hasVideo && item.hasAudio)
-      .map((item) => ({
-        url: item.url,
-        qualityLabel: item.qualityLabel,
-        container: item.container,
-      })),
-    video: {
-      title: data[0]?.videoDetails?.title,
-      lengthSeconds: data[0]?.videoDetails?.lengthSeconds,
-      thumbnails: data[0]?.videoDetails?.thumbnails,
-      url: url,
-    },
-    mp3: data[1]?.link,
-  });
+  Promise.all([ytdl.getInfo(url), getMp3File(videoId)])
+    .then((data) => {
+      res.status(200).json({
+        success: true,
+        formats: data[0].formats
+          .filter((item) => item.hasVideo && item.hasAudio)
+          .map((item) => ({
+            url: item.url,
+            qualityLabel: item.qualityLabel,
+            container: item.container,
+          })),
+        video: {
+          title: data[0]?.videoDetails?.title,
+          lengthSeconds: data[0]?.videoDetails?.lengthSeconds,
+          thumbnails: data[0]?.videoDetails?.thumbnails,
+          url: url,
+        },
+        mp3: data[1]?.link,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server not found!",
+        err,
+      });
+    });
 });
 
 const PORT = 5000;
