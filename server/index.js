@@ -42,34 +42,25 @@ app.get("/download", async (req, res) => {
 
   const videoId = ytdl.getURLVideoID(url);
 
-  try {
-    const data = await Promise.all([ytdl.getInfo(url), getMp3File(videoId)]);
+  const data = await Promise.all([ytdl.getInfo(url), getMp3File(videoId)]);
 
-    res.status(200).json({
-      success: true,
-      formats: data[0].formats
-        .filter((item) => item.hasVideo && item.hasAudio)
-        .map((item) => ({
-          url: item.url,
-          qualityLabel: item.qualityLabel,
-          container: item.container,
-        })),
-      video: {
-        title: data[0]?.videoDetails?.title,
-        lengthSeconds: data[0]?.videoDetails?.lengthSeconds,
-        thumbnails: data[0]?.videoDetails?.thumbnails,
-        url: url,
-      },
-      mp3: data[1]?.link,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: "Lỗi từ server!",
-      error,
-    });
-  }
+  res.status(200).json({
+    success: true,
+    formats: data[0].formats
+      .filter((item) => item.hasVideo && item.hasAudio)
+      .map((item) => ({
+        url: item.url,
+        qualityLabel: item.qualityLabel,
+        container: item.container,
+      })),
+    video: {
+      title: data[0]?.videoDetails?.title,
+      lengthSeconds: data[0]?.videoDetails?.lengthSeconds,
+      thumbnails: data[0]?.videoDetails?.thumbnails,
+      url: url,
+    },
+    mp3: data[1]?.link,
+  });
 });
 
 const PORT = 5000;
