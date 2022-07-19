@@ -33,24 +33,17 @@ app.get("/download", async (req, res) => {
     });
   }
 
+  if (!ytdl.validateURL(url)) {
+    return res.status(500).json({
+      success: false,
+      message: "Id video hoặc đường dẫn lỗi!",
+    });
+  }
+
   const videoId = ytdl.getURLVideoID(url);
 
-  if (!videoId) {
-    return res.status(500).json({
-      success: false,
-      message: "Id video hoặc đường dẫn lỗi!",
-    });
-  }
-
-  if (!ytdl.validateID(videoId)) {
-    return res.status(500).json({
-      success: false,
-      message: "Id video hoặc đường dẫn lỗi!",
-    });
-  }
-
   try {
-    const data = await Promise.all([ytdl.getInfo(url)]);
+    const data = await Promise.all([ytdl.getInfo(url), getMp3File(videoId)]);
 
     res.status(200).json({
       success: true,
@@ -67,7 +60,7 @@ app.get("/download", async (req, res) => {
         thumbnails: data[0]?.videoDetails?.thumbnails,
         url: url,
       },
-      // mp3: data[1]?.link,
+      mp3: data[1]?.link,
     });
   } catch (error) {
     console.log(error);
