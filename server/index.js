@@ -35,6 +35,8 @@ app.get("/download", async (req, res) => {
 
   const videoId = ytdl.getURLVideoID(url);
 
+  console.log(!videoId);
+
   if (!videoId) {
     return res.status(500).json({
       success: false,
@@ -70,6 +72,7 @@ app.get("/download", async (req, res) => {
       mp3: data[1]?.link,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "Lỗi từ server!",
